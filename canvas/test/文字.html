@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="800" height="600" style="border:1px solid #000"></canvas>
+  <script>
+    const canvas = document.getElementById("myCanvas")
+    const cxt = canvas.getContext('2d')
+
+    cxt.moveTo(0, 90)
+    cxt.lineTo(800, 90)
+    cxt.stroke()
+
+    cxt.font = '40px 隶书'
+    cxt.strokeStyle = 'pink'
+    cxt.textBaseline = 'alphabetic'
+    cxt.strokeText('警翼', 30, 90)
+
+
+    cxt.font = '40px 草书'
+    cxt.fillStyle = 'red'
+    var text = '警翼'
+    cxt.textBaseline = 'top'
+    cxt.fillText(text, 150, 90)
+
+    var textLength = cxt.measureText(text).width
+    cxt.font = '40px 正楷'
+    cxt.fillStyle = 'blue'
+    cxt.textBaseline = 'bottom'
+    cxt.fillText(textLength, 270, 90)
+
+    cxt.font = '40px 草书'
+    cxt.fillStyle = 'red'
+    var text = '警翼'
+    cxt.textBaseline = 'middle'
+    cxt.fillText(text, 390, 90)
+
+    cxt.font = '40px 草书'
+    cxt.fillStyle = 'red'
+    var text = '警翼'
+    cxt.textBaseline = 'hanging'
+    cxt.fillText(text, 510, 90)
+  </script>
+</body>
+
+</html>

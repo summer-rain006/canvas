@@ -1,0 +1,135 @@
+1、 前面的案例中，其实已经知道使用 stroke() 方法进行描边了。这里就不再多讲这个方法。
+2、 线条宽度 lineWidth
+  lineWidth 默认值是 1 ，默认单位是 px。
+3、 线条颜色 strokeStyle
+  使用 strokeStyle 可以设置线条颜色
+4、线帽 lineCap
+  线帽指的是线段的开始和结尾处的样式，使用 lineCap 可以设置
+  * butt: 默认值，无线帽
+  * square: 方形线帽
+  * round: 圆形线帽
+5、拐角样式 lineJoin
+  如果需要设置拐角样式，可以使用 lineJoin 。
+  * miter: 默认值，尖角
+  * round: 圆角
+  * bevel: 斜角
+6、虚线 setLineDash()
+  使用 setLineDash() 方法可以将描边设置成虚线。
+  setLineDash([])
+  需要传入一个数组，且元素是数值型。
+  虚线分3种情况
+    只传1个值
+    有2个值
+    有3个以上的值
+  此外，还可以始终 cxt.getLineDash() 获取虚线不重复的距离；
+  用 cxt.lineDashOffset 设置虚线的偏移位。
+7、填充
+  使用 fill() 可以填充图形，根据前面的例子应该掌握了如何使用 fill()
+  可以使用 fillStyle 设置填充颜色，默认是黑色。
+8、非零环绕填充
+  在使用 fill() 方法填充时，需要注意一个规则：非零环绕填充。
+  在使用 moveTo 和 lineTo 描述图形时，如果是按顺时针绘制，计数器会加1；如果是逆时针，计数器会减1。
+  当图形所处的位置，计数器的结果为0时，它就不会被填充。
+  // 外层矩形
+  cxt.moveTo(50, 50)
+  cxt.lineTo(250, 50)
+  cxt.lineTo(250, 250)
+  cxt.lineTo(50, 250)
+  cxt.closePath()
+
+  // 内层矩形
+  cxt.moveTo(200, 100)
+  cxt.lineTo(100, 100)
+  cxt.lineTo(100, 200)
+  cxt.lineTo(200, 200)
+  cxt.closePath()
+  cxt.fill()
+9、样式 font
+  和 CSS 设置 font 差不多，Canvas 也可以通过 font 设置样式。
+  cxt.font = 'font-style font-variant font-weight font-size/line-height font-family'
+  如果需要设置字号 font-size，需要同事设置 font-family。
+  cxt.font = '30px 宋体'
+10、描边 strokeText()
+  使用 strokeText() 方法进行文本描边
+  strokeText(text, x, y, maxWidth)
+  text: 字符串，要绘制的内容
+  x: 横坐标，文本左边要对齐的坐标（默认左对齐）
+  y: 纵坐标，文本底边要对齐的坐标
+  maxWidth: 可选参数，表示文本渲染的最大宽度（px），如果文本超出 maxWidth 设置的值，文本会被压缩。
+11、设置描边颜色 strokeStyle
+  使用 strokeStyle 设置描边颜色。
+  cxt.strokeStyle = 'pink' // 设置文本描边颜色
+12、填充 fillText
+  使用 fillText() 可填充文本。
+  语法和 strokeText() 一样。
+  fillText(text, x, y, maxWidth)
+13、设置填充颜色 fillStyle
+  使用 fillStyle 可以设置文本填充颜色。
+  cxt.fillStyle = 'pink'
+14、获取文本长度 measureText()
+  measureText().width 方法可以获取文本的长度，单位是 px 。
+15、水平对齐方式 textAlign
+  使用 textAlign 属性可以设置文字的水平对齐方式，一共有5个值可选
+    start: 默认。在指定位置的横坐标开始。
+    end: 在指定坐标的横坐标结束。
+    left: 左对齐。
+    right: 右对齐。
+    center: 居中对齐。
+16、垂直对齐方式 textBaseline
+  使用 textBaseline 属性可以设置文字的垂直对齐方式。
+  在使用 textBaseline 前，需要自行了解 css 的文本基线。
+  textBaseline 可选属性：
+    alphabetic: 默认。文本基线是普通的字母基线。
+    top: 文本基线是 em 方框的顶端。
+    bottom: 文本基线是 em 方框的底端。
+    middle: 文本基线是 em 方框的正中。
+    hanging: 文本基线是悬挂基线。
+17、渲染图片
+  渲染图片的方式有2中，一种是在JS里加载图片再渲染，另一种是把DOM里的图片拿到 canvas 里渲染。
+  渲染的语法：
+    drawImage(image, dx, dy)
+    image: 要渲染的图片对象。
+    dx: 图片左上角的横坐标位置。
+    dy: 图片左上角的纵坐标位置。
+  在 JS 里加载图片并渲染，有以下几个步骤：
+    创建 Image 对象
+    引入图片
+    等待图片加载完成
+    使用 drawImage() 方法渲染图片
+    <script>
+      const cnv = document.getElementById('c')
+      const cxt = cnv.getContext('2d')
+      // 1 创建 Image 对象
+      const image = new Image()
+      // 2 引入图片
+      image.src = './images/dog.jpg'
+      // 3 等待图片加载完成
+      image.onload = () => {
+        // 4 使用 drawImage() 方法渲染图片
+        cxt.drawImage(image, 30, 30)
+      }
+    </script>
+  DOM版
+    <script>
+      const cnv = document.getElementById('c')
+      const cxt = cnv.getContext('2d')
+
+      const image = document.getElementById('dogImg')
+
+      cxt.drawImage(image, 70, 70)
+    </script>
+18、设置图片宽高
+  drawImage(image, dx, dy, dw, dh)
+  dw 用来定义图片的宽度，dh 定义图片的高度。
+19、截取图片
+  截图图片同样使用drawImage() 方法，只不过传入的参数数量比之前都多，而且顺序也有点不一样了。
+  drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+    image: 图片对象
+    sx: 开始截取的横坐标
+    sy: 开始截取的纵坐标
+    sw: 截取的宽度
+    sh: 截取的高度
+    dx: 图片左上角的横坐标位置
+    dy: 图片左上角的纵坐标位置
+    dw: 图片宽度
+    dh: 图片高度

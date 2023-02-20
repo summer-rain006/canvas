@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="600" height="400" style="border:1px solid #ccc"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const cxt = canvas.getContext('2d');
+    cxt.moveTo(50, 100) //起点坐标 (x, y)
+    cxt.lineTo(100, 50) //下一个点的坐标 (x, y)
+    cxt.lineTo(150, 100) //下一个点的坐标 (x, y)
+    cxt.lineTo(200, 50) //下一个点的坐标 (x, y)
+    cxt.lineTo(250, 100) //下一个点的坐标 (x, y)
+    cxt.lineWidth = 20  //线的粗细
+    cxt.strokeStyle = 'blue' //线的颜色
+    cxt.lineCap = 'round' //线帽：默认: butt; 圆形: round; 方形: square
+    cxt.stroke() //将所有坐标用一条线连起来
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!--
+ * @Author: zhangjq 1804844520@qq.com
+ * @Date: 2023-02-17 16:29:45
+ * @LastEditors: zhangjq 1804844520@qq.com
+ * @LastEditTime: 2023-02-17 16:50:05
+ * @FilePath: \web前端\canvas\刮刮乐.html
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #ggk {
+      width: 400px;
+      height: 100px;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+
+    .jp,
+    canvas {
+      position: absolute;
+      width: 400px;
+      height: 100px;
+      left: 0;
+      top: 0;
+      text-align: center;
+      font-size: 25px;
+      line-height: 100px;
+      color: deeppink;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center;">刮刮乐</h1>
+  <div id="ggk">
+    <div class="jp"></div>
+    <canvas id="canvas" width="400" height="100"></canvas>
+  </div>
+  <script>document.addEventListener("selectstart", function (e) {
+      e.preventDefault();
+    })
+    let ggkDom = document.querySelector('#ggk');
+    let jp = document.querySelector('.jp');
+    /** @type {HTMLCanvasElement} */
+    let canvas = document.querySelector("#canvas");
+    let ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'darkgray';
+    ctx.fillRect(0, 0, 400, 100);
+
+    let isDraw = false;
+    // 设置isDraw = true,则允许绘制
+    canvas.onmousedown = function () {
+      isDraw = true;
+    }
+    // 移动的时候绘制圆形，将源图像内的目标内容清除掉
+    canvas.onmousemove = function (e) {
+      if (isDraw) {
+        let x = e.pageX - ggkDom.offsetLeft + ggkDom.offsetWidth / 2;
+        let y = e.pageY - ggkDom.offsetTop;
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, 2 * Math.PI);
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+    document.onmouseup = function () {
+      isDraw = false;
+    }
+
+    let arr = [
+      { content: '一等奖：一个大嘴巴子', p: 0.1 },
+      { content: '二等奖：两个大嘴巴子', p: 0.2 },
+      { content: '三等奖：三个大嘴巴子', p: 0.3 },
+      { content: '幸运奖：五个大嘴巴子', p: 0.4 },
+    ];
+    let sj = Math.random();
+    console.log(sj);
+    if (sj <= arr[0].p) {
+      jp.innerHTML = arr[0].content;
+    } else if (arr[0].p < sj <= arr[1].p) {
+      jp.innerHTML = arr[1].content;
+    } else if (arr[1].p < sj <= arr[2].p) {
+      jp.innerHTML = arr[2].content;
+    } else {
+      jp.innerHTML = arr[3].content;
+    }
+  </script>
+</body>
+
+</html>

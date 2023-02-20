@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="1000" height="800" style="border:1px solid #000"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas')
+    const cxt = canvas.getContext('2d')
+
+    cxt.moveTo(0, 50)
+    cxt.lineTo(1000, 50)
+
+    cxt.moveTo(0, 100)
+    cxt.lineTo(1000, 100)
+
+    cxt.moveTo(0, 150)
+    cxt.lineTo(1000, 150)
+
+    cxt.moveTo(0, 200)
+    cxt.lineTo(1000, 200)
+
+    cxt.moveTo(0, 250)
+    cxt.lineTo(1000, 250)
+
+    cxt.moveTo(0, 300)
+    cxt.lineTo(1000, 300)
+
+    cxt.moveTo(0, 350)
+    cxt.lineTo(1000, 350)
+
+    cxt.moveTo(0, 400)
+    cxt.lineTo(1000, 400)
+
+    cxt.moveTo(0, 450)
+    cxt.lineTo(1000, 450)
+
+    cxt.moveTo(0, 500)
+    cxt.lineTo(1000, 500)
+
+    cxt.moveTo(0, 550)
+    cxt.lineTo(1000, 550)
+
+    cxt.moveTo(0, 600)
+    cxt.lineTo(1000, 600)
+
+    cxt.moveTo(0, 650)
+    cxt.lineTo(1000, 650)
+
+    cxt.moveTo(0, 700)
+    cxt.lineTo(1000, 700)
+
+    cxt.moveTo(0, 750)
+    cxt.lineTo(1000, 750)
+
+    cxt.moveTo(50, 0)
+    cxt.lineTo(50, 800)
+
+    cxt.moveTo(100, 0)
+    cxt.lineTo(100, 800)
+
+    cxt.moveTo(150, 0)
+    cxt.lineTo(150, 800)
+
+    cxt.moveTo(200, 0)
+    cxt.lineTo(200, 800)
+
+    cxt.moveTo(250, 0)
+    cxt.lineTo(250, 800)
+
+    cxt.moveTo(300, 0)
+    cxt.lineTo(300, 800)
+
+    cxt.moveTo(350, 0)
+    cxt.lineTo(350, 800)
+
+    cxt.moveTo(400, 0)
+    cxt.lineTo(400, 800)
+
+    cxt.moveTo(450, 0)
+    cxt.lineTo(450, 800)
+
+    cxt.moveTo(500, 0)
+    cxt.lineTo(500, 800)
+
+    cxt.moveTo(550, 0)
+    cxt.lineTo(550, 800)
+
+    cxt.moveTo(600, 0)
+    cxt.lineTo(600, 800)
+
+    cxt.moveTo(650, 0)
+    cxt.lineTo(650, 800)
+
+    cxt.moveTo(700, 0)
+    cxt.lineTo(700, 800)
+
+    cxt.moveTo(750, 0)
+    cxt.lineTo(750, 800)
+
+    cxt.moveTo(800, 0)
+    cxt.lineTo(800, 800)
+
+    cxt.moveTo(850, 0)
+    cxt.lineTo(850, 800)
+
+    cxt.moveTo(900, 0)
+    cxt.lineTo(900, 800)
+
+    cxt.moveTo(950, 0)
+    cxt.lineTo(950, 800)
+    cxt.lineWidth = 2
+    cxt.strokeStyle = '#000'
+    cxt.stroke()
+
+    const image = new Image()
+    image.src = '../image/cat.jpg'
+
+    image.onload = () => {
+      cxt.drawImage(image, 50, 50, 850, 500)
+      cxt.drawImage(image, 0, 0, 340, 200, 50, 600, 340, 200)
+    }
+  </script>
+</body>
+
+</html>

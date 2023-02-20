@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="1000" height="800" style="border:1px solid #ccc"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const cxt = canvas.getContext('2d');
+    cxt.moveTo(50, 100)
+    cxt.lineTo(100, 50)
+    cxt.lineTo(150, 100)
+    cxt.lineTo(50, 100)
+    cxt.lineWidth = 20
+    cxt.strokeStyle = 'blue'
+    cxt.lineJoin = 'miter' //线条连接的样式。miter: 默认; bevel: 斜面; round: 圆角
+    cxt.stroke() //将所有坐标用一条线连起来
+
+
+    // 手动闭合 closePath()
+    cxt.beginPath()
+    cxt.moveTo(150, 150) //起点坐标 (x, y)
+    cxt.lineTo(200, 150) //下一个点的坐标 (x, y)
+    cxt.lineTo(200, 250) //下一个点的坐标 (x, y)
+    cxt.lineTo(150, 150) //下一个点的坐标 (x, y)
+
+    cxt.closePath()
+    cxt.lineWidth = 20  //线的粗细
+    cxt.strokeStyle = 'blue' //线的颜色
+    cxt.lineJoin = 'miter' //线条连接的样式。miter: 默认; bevel: 斜面; round: 圆角
+    cxt.stroke() //将所有坐标用一条线连起来
+
+    // 菱形
+    cxt.beginPath()
+    cxt.moveTo(150, 200)
+    cxt.lineTo(100, 300)
+    cxt.lineTo(150, 400)
+    cxt.lineTo(200, 300)
+    cxt.closePath()
+    cxt.strokeStyle = 'pink'
+    cxt.stroke()
+
+  </script>
+</body>
+
+</html>

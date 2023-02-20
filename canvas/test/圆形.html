@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="1000" height="800" style="border:1px solid #ccc"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const cxt = canvas.getContext('2d');
+
+    /**
+     * arc(x, y, r, sAngle, eAngle，counterclockwise)
+     * x 和 y: 圆心坐标
+     * r: 半径
+     * sAngle: 开始角度
+     * eAngle: 结束角度
+     * counterclockwise: 绘制方向（true: 逆时针; false: 顺时针），默认 false
+     * 180° 就写成 Math.PI ，360° 写成 Math.PI * 2
+     */
+
+    cxt.beginPath()
+    cxt.arc(150, 150, 80, 0, 360 * Math.PI / 180)
+    cxt.closePath()
+
+    cxt.stroke()
+
+
+    // 半圆
+    cxt.beginPath()
+    cxt.arc(500, 150, 100, 0, 180 * Math.PI / 180)
+    cxt.closePath()
+
+    cxt.stroke()
+
+    // 半圆
+    cxt.beginPath()
+    cxt.arc(800, 150, 100, 0, 180 * Math.PI / 180, true)
+    cxt.closePath()
+
+    cxt.stroke()
+
+    // 弧度
+    cxt.beginPath()
+    cxt.arc(150, 300, 100, 0, 30 * Math.PI / 180)
+    // cxt.closePath()
+    cxt.stroke()
+
+    // arcTo() 画弧线
+    /**
+     * arcTo(cx, cy, x2, y2, radius)
+     * cx: 两切线交点的横坐标
+     * cy: 两切线交点的纵坐标
+     * x2: 结束点的横坐标
+     * y2: 结束点的纵坐标
+     * radius: 半径
+     * (cx, cy) 也叫控制点，(x2, y2) 也叫结束点。
+     *
+     *
+     */
+    cxt.beginPath()
+    cxt.moveTo(300, 300)
+    cxt.arcTo(400, 300, 400, 400, 80)
+
+    cxt.stroke()
+  </script>
+</body>
+
+</html>

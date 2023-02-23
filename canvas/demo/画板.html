@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style lang="scss" scoped>
+    #canvas {
+      border: 1px solid black;
+    }
+  </style>
+  <style>
+    .qr-code-icon-huaBi {
+      background: url('../image/画笔1.png') center no-repeat;
+      background-size: cover;
+    }
+
+    .qr-code-icon-huaBi:before {
+      content: "替";
+      font-size: 16px;
+      visibility: hidden;
+    }
+
+    .qr-code-icon-line {
+      background: url('../image/直线.png') center no-repeat;
+      background-size: cover;
+    }
+
+    .qr-code-icon-line:before {
+      content: "替";
+      font-size: 16px;
+      visibility: hidden;
+    }
+
+    .qr-code-icon-rect {
+      background: url('../image/square.png') center no-repeat;
+      background-size: cover;
+    }
+
+    .qr-code-icon-rect:before {
+      content: "替";
+      font-size: 16px;
+      visibility: hidden;
+    }
+
+    .qr-code-icon-arc {
+      background: url('../image/圆形.png') center no-repeat;
+      background-size: cover;
+    }
+
+    .qr-code-icon-arc:before {
+      content: "替";
+      font-size: 16px;
+      visibility: hidden;
+    }
+
+    .qr-code-icon-eraser {
+      background: url('../image/橡皮擦.png') center no-repeat;
+      background-size: cover;
+    }
+
+    .qr-code-icon-eraser:before {
+      content: "替";
+      font-size: 16px;
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div style="margin-bottom: 10px;display:flex;align-items:center">
+      <el-button @click="changeType('huaBi')" icon="qr-code-icon-huaBi" type="primary">画笔</el-button>
+      <el-button @click="changeType('line')" icon="qr-code-icon-line" type="primary">直线</el-button>
+      <el-button @click="changeType('rect')" icon="qr-code-icon-rect" type="primary">正方形</el-button>
+      <el-button @click="changeType('delta')" icon="qr-code-icon-rect" type="primary">三角形</el-button>
+      <el-button @click="changeType('arc')" icon="qr-code-icon-arc" style="margin-right: 10px" type="primary">圆形
+      </el-button>
+      <el-button @click="changeType('eraser')" style="margin-right: 10px" icon="qr-code-icon-eraser" type="primary">橡皮擦
+      </el-button>
+      <div>粗细：</div>
+      <el-dropdown @command="handleCommand" trigger="click">
+        <span class="el-dropdown-link" style="margin-right: 10px">
+          <span style="display:inline-block;height: 15px;">
+            <hr width="20" :size="size" color="#000">
+          </span>
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a">
+            <hr width="50" size="1" color="#000">
+          </el-dropdown-item>
+          <el-dropdown-item command="b">
+            <hr width="50" size="2" color="#000">
+          </el-dropdown-item>
+          <el-dropdown-item command="c">
+            <hr width="50" size="5" color="#000">
+          </el-dropdown-item>
+          <el-dropdown-item command="d">
+            <hr width="50" size="8" color="#000">
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <div>颜色：</div>
+      <el-color-picker v-model="brushColor" @change="changeColor"></el-color-picker>
+      <div>填充颜色：</div>
+      <el-color-picker v-model="paddingColor" @change="changeColor1"></el-color-picker>
+      <el-button @click="clear">清空</el-button>
+      <el-button @click="saveImg">保存</el-button>
+    </div>
+    <canvas id="canvas" width="1000" height="800" @mousedown="canvasDown" @mousemove="canvasMove" @mouseout="canvasUp"
+      @mouseup="canvasUp">
+    </canvas>
+  </div>
+
+  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          type: null,
+          isDraw: false,
+          canvasDom: null,
+          ctx: null,
+          beginX: 0,
+          beginY: 0,
+          imageData: null,
+          brushThickness: 1, //画笔粗细
+          brushColor: '#000',//画笔颜色
+          size: 1,
+          paddingColor: '#fff',//填充颜色
+        }
+      },
+      mounted() {
+        this.canvasDom = document.getElementById("canvas");
+        this.ctx = this.canvasDom.getContext("2d");
+      },
+      methods: {
+        changeType(type) {
+          console.log(this.canvasDom.offsetWidth, this.canvasDom.offsetHeight);
+          this.type = type;
+          if (type == 'huaBi') {
+            this.canvasDom.style.cursor = 'url(../image/画笔2.ico),auto';
+          } else if (type == 'eraser') {
+            this.canvasDom.style.cursor = 'url(../image/square.ico),auto';
+          } else {
+            this.canvasDom.style.cursor = 'url(../image/添加.ico),auto';
+          }
+        },
+        canvasDown(e) {
+          this.isDraw = true;
+          const canvas = this.canvasDom;
+          this.beginX = e.pageX - canvas.offsetLeft;
+          this.beginY = e.pageY - canvas.offsetTop;
+          if (this.type == 'huaBi') {
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.beginX, this.beginY);
+          }
+        },
+        canvasMove(e) {
+          if (!this.type) return
+          if (!this.isDraw) return;
+          const canvas = this.canvasDom;
+          const ctx = this.ctx;
+          const x = e.pageX - canvas.offsetLeft;
+          const y = e.pageY - canvas.offsetTop;
+          this[`${this.type}Fn`](ctx, x, y)
+        },
+        canvasUp() {
+          if (this.type == 'eraser') {
+            this.ctx.beginPath();
+            this.ctx.clearRect(this.beginX + 1.5, this.beginY + 1.5, 26, 26);
+          }
+          this.imageData = this.ctx.getImageData(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetHeight);
+          this.isDraw = false;
+        },
+        lineFn(ctx, x, y) {
+          var Ax = x + 16;
+          var Ay = y + 16;
+          this.ctx.beginPath();
+          this.ctx.clearRect(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.imageData && this.ctx.putImageData(this.imageData, 0, 0, 0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.ctx.moveTo(this.beginX + 16, this.beginY + 16);
+          this.ctx.lineTo(Ax, Ay)
+          this.ctx.strokeStyle = this.brushColor;
+          this.ctx.lineWidth = this.brushThickness;  //线的粗细
+          this.ctx.stroke();
+          this.ctx.closePath();
+        },
+        huaBiFn(ctx, x, y) {
+          this.ctx.lineTo(x, y);
+          this.ctx.lineWidth = this.brushThickness;  //线的粗细
+          this.ctx.strokeStyle = this.brushColor;
+          this.ctx.stroke();
+        },
+        rectFn(ctx, x, y) {
+          this.ctx.beginPath();
+          this.ctx.clearRect(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.imageData && this.ctx.putImageData(this.imageData, 0, 0, 0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.ctx.strokeStyle = this.brushColor;
+          this.ctx.lineWidth = this.brushThickness;  //线的粗细
+          this.ctx.rect(this.beginX + 16, this.beginY + 16, x - this.beginX, y - this.beginY);
+          this.ctx.fillStyle = this.paddingColor
+          this.ctx.fill()
+          this.ctx.stroke();
+          // this.ctx.strokeRect(this.beginX, this.beginY, x - this.beginX, y - this.beginY);
+          this.ctx.closePath();
+        },
+        deltaFn(ctx, x, y) {
+          this.ctx.beginPath();
+          this.ctx.clearRect(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.imageData && this.ctx.putImageData(this.imageData, 0, 0, 0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.ctx.strokeStyle = this.brushColor;
+          this.ctx.lineWidth = this.brushThickness;  //线的粗细
+          this.ctx.moveTo(this.beginX + 16, this.beginY + 16);
+          this.ctx.lineTo(this.beginX + 16, y + 16)
+          this.ctx.lineTo(x + 16, y + 16)
+          this.ctx.fillStyle = this.paddingColor
+          this.ctx.fill()
+          this.ctx.closePath();
+          this.ctx.stroke();
+        },
+        arcFn(ctx, x, y) {
+          this.ctx.beginPath();
+          this.ctx.clearRect(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.imageData && this.ctx.putImageData(this.imageData, 0, 0, 0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.ctx.strokeStyle = this.brushColor;
+          this.ctx.lineWidth = this.brushThickness;  //线的粗细
+          var length = this.GetDistance(x - this.beginX, y - this.beginY);
+          this.ctx.arc(this.beginX + 16, this.beginY + 16, length, 0, 360 * Math.PI / 180)
+          this.ctx.fillStyle = this.paddingColor
+          this.ctx.fill()
+          this.ctx.stroke()
+          this.ctx.closePath();
+        },
+        eraserFn(ctx, x, y) {
+          this.ctx.beginPath();
+          // this.ctx.moveTo(Ax, Ay);
+          this.ctx.clearRect(x + 1.5, y + 1.5, 26, 26);
+        },
+        GetDistance(x, y) {
+          var Ax = Math.pow(x, 2);
+          var Ay = Math.pow(y, 2);
+          return Math.sqrt(Ax + Ay)
+        },
+        clear() {
+          this.ctx.clearRect(0, 0, this.canvasDom.offsetWidth, this.canvasDom.offsetWidth);
+          this.imageData = null;
+        },
+        saveImg() {
+          const url = this.canvasDom.toDataURL();
+          const a = document.createElement("a");
+          a.download = "sunshine";
+          a.href = url;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        },
+        // 画笔粗细
+        handleCommand(command) {
+          console.log(command);
+          switch (command) {
+            case 'a':
+              this.brushThickness = 1
+              this.size = this.brushThickness
+              break;
+            case 'b':
+              this.brushThickness = 2
+              this.size = this.brushThickness
+              break;
+            case 'c':
+              this.brushThickness = 5
+              this.size = this.brushThickness
+              break;
+            case 'd':
+              this.brushThickness = 8
+              this.size = this.brushThickness
+              break;
+
+            default:
+              break;
+          }
+        },
+        // 修改颜色
+        changeColor(val) {
+          console.log(val);
+          this.brushColor = val
+        },
+        // 修改颜色
+        changeColor1(val) {
+          console.log(val);
+          this.paddingColor = val
+        },
+      }
+
+    })
+  </script>
+</body>
+
+</html>

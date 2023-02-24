@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 绘制虚线</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /**
+     * setLineDash 可以设置当前虚线样式。
+     * getLineDash 则是返回当前虚线设置的样式，长度为非负偶数的数组。
+     * lineDashOffset 设置虚线样式的起始偏移量。
+     */
+    /*
+    首先这里画两条虚线是想对比一下传参为奇数数组和偶数数组的区别，在我们设置虚线的时候，如果传参为奇数，例如：ctx.setLineDash([5, 10, 20])，那么 setLineDash 会复制一份数组补全为偶数，相当于我们设置的是：ctx.setLineDash([5, 10, 20, 5, 10, 20])。所以这也就是为什么上图中我们设置的是 [5, 10, 20]，结果打印出来是 [5, 10, 20, 5, 10, 20]
+    */
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      // 绘制一条虚线
+      ctx.setLineDash([5, 10, 20]);
+      console.log(ctx.getLineDash()); // [5, 10, 20, 5, 10, 20]
+      ctx.beginPath();
+      ctx.moveTo(0, 50);
+      ctx.lineTo(400, 50);
+      ctx.stroke();
+      ctx.closePath()
+      // 绘制一条虚线
+      ctx.setLineDash([5, 10, 20]);
+      console.log(ctx.getLineDash()); // [5, 10, 20, 5, 10, 20]
+      ctx.beginPath();
+      ctx.lineDashOffset = 10;
+      ctx.moveTo(0, 100);
+      ctx.lineTo(400, 100);
+      ctx.stroke();
+      // 再绘制一条虚线
+      ctx.setLineDash([5, 10, 20, 40]);
+      console.log(ctx.getLineDash()); // [5, 10, 20, 40]
+      ctx.beginPath();
+      ctx.moveTo(0, 200);
+      ctx.lineTo(400, 200);
+      ctx.stroke();
+    }
+  </script>
+</body>
+
+</html>

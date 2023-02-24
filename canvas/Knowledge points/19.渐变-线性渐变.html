@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 渐变</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /**
+     * 渐变分为两种，分别是线性渐变和径向渐变，在绘图中我们可以用线性或者径向的渐变来填充或描边。
+     * 线性渐变
+     * 语法： createLinearGradient(x1, y1, x2, y2)，参数分别为 起点的坐标和终点的坐标。
+     * 在渐变的设置中还需要一个方法来添加渐变的颜色，语法为：gradient.addColorStop(offset, color)，其中color就是颜色，offset 则是颜色的偏移值，只为0到1之间的数。
+     */
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      // 创建渐变
+      var gradient1 = ctx.createLinearGradient(10, 10, 400, 10);
+      gradient1.addColorStop(0, "#00ff00");
+      gradient1.addColorStop(1, "#ff0000");
+      var gradient2 = ctx.createLinearGradient(10, 10, 400, 10);
+      // 从0.5的位置才开始渐变
+      gradient2.addColorStop(0.5, "#00ff00");
+      gradient2.addColorStop(1, "#ff0000");
+      ctx.beginPath()
+      ctx.fillStyle = gradient1;
+      ctx.fillRect(10, 10, 400, 100);
+      ctx.beginPath();
+      ctx.fillStyle = gradient2;
+      ctx.fillRect(10, 150, 400, 100);
+    }
+  </script>
+</body>
+
+</html>

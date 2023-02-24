@@ -1,0 +1,77 @@
+<!--
+ * @Author: zhangjq summer6350@163.com
+ * @Date: 2023-02-24 14:04:23
+ * @LastEditors: zhangjq summer6350@163.com
+ * @LastEditTime: 2023-02-24 14:36:25
+ * @FilePath: \canvas\canvas\contact\1.html
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="800" height="600" style="border: 1px solid #000;"></canvas>
+  <script>
+    var canvas = document.getElementById('myCanvas')
+    var ctx = canvas.getContext('2d')
+
+    ctx.moveTo(50, 0)
+    ctx.lineTo(50, 50)
+    ctx.lineWidth = 20  //线的粗细
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.lineWidth = 10  //线的粗细
+    ctx.moveTo(100, 0)
+    ctx.lineTo(60, 100)
+    ctx.lineTo(140, 100)
+    ctx.lineTo(100, 0)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(200, 0)
+    ctx.lineTo(150, 100)
+    ctx.lineTo(250, 100)
+    ctx.closePath()
+    ctx.stroke()
+
+    ctx.beginPath()
+    // 画出一个矩形
+    ctx.strokeRect(50, 120, 100, 100)
+
+    ctx.beginPath()
+    // 填充出一个矩形
+    ctx.fillStyle = 'pink'
+    ctx.fillRect(200, 120, 100, 100)
+
+    ctx.beginPath()
+    ctx.fillStyle = 'red'
+    ctx.strokeRect(50, 250, 100, 100)
+    ctx.fillRect(50, 250, 100, 100)
+
+    // rect()
+    ctx.rect(200, 250, 100, 100)
+    ctx.stroke()
+    ctx.fillStyle = 'blue'
+    ctx.fill()
+
+  </script>
+</body>
+
+</html>

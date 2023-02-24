@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>3D Pikachu</title>
+  <style>
+    #canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script>
+    // 创建场景、相机和渲染器
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // 创建皮卡丘材质
+    const pikachuMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffcc32,
+      roughness: 0.5,
+      metalness: 0.5
+    });
+
+    // 创建皮卡丘模型
+    const pikachuGeometry = new THREE.BoxGeometry(2, 2, 2);
+    const pikachu = new THREE.Mesh(pikachuGeometry, pikachuMaterial);
+    scene.add(pikachu);
+
+    // 创建环境光和平行光
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(0, 1, 1);
+    scene.add(directionalLight);
+
+    // 设置相机位置
+    camera.position.set(0, 0, 5);
+
+    // 渲染场景
+    function render() {
+      requestAnimationFrame(render);
+      pikachu.rotation.x += 0.01;
+      pikachu.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    render();
+  </script>
+</body>
+
+</html>

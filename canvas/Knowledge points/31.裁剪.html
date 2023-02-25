@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 裁剪</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <canvas id="canvas1" width="500" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /**
+     * clip() 将当前正在构建的路径转换为当前的裁剪路径。
+     */
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.src = '../image/cat.png';
+      img.onload = function () {
+        // 创建圆形裁剪路径
+        ctx.arc(250, 250, 200, 0, Math.PI * 2, false);
+        ctx.rect(100, 100, 300, 300);
+        ctx.clip();
+        // 创建完后绘制
+        ctx.drawImage(img, 0, 0, 500, 500);
+      }
+    }
+    /*
+    clip(path, fillRule)
+      path为需要剪切的 Path2D 路径
+      fillRule为判断是在路径内还是在路径外，允许的值有 nonzero（默认值）：非零环绕原则，evenodd：奇偶环绕原则
+    Path2D
+      Path2D 用来声明路径，语法：Path2D()，它是一个构造函数，可以创建一个新的 Path2D 对象。
+      Path2D()有不少方法，先了解一下：
+
+      addPath()：添加一条新路径到对当前路径。
+      closePath()：使笔点返回到当前子路径的起始点。它尝试从当前点到起始点绘制一条直线。 如果图形已经是封闭的或者只有一个点，那么此函数不会做任何操作。
+      moveTo()：将一个新的子路径的起始点移动到 (x，y) 坐标。
+      lineTo()：使用直线连接子路径的终点到 x, y 坐标。
+      bezierCurveTo()：添加一条三次贝赛尔曲线到当前路径。 该方法需要三个点。 第一、第二个点是控制点，第三个点是结束点。起始点是当前路径的最后一个点，绘制贝赛尔曲线前，可以通过调用 moveTo() 进行修改。
+      quadraticCurveTo()：添加一条二次贝赛尔曲线到当前路径。
+      arc()：添加一条圆弧路径。 圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
+      arcTo()：根据控制点和半径添加一条圆弧路径，使用直线连接前一个点。
+      ellipse()：添加一条椭圆路径。椭圆的圆心在（x,y）位置，半径分别是radiusX 和 radiusY ，按照anticlockwise （默认顺时针）指定的方向，从 startAngle 开始绘制，到 endAngle 结束。
+      rect()：创建一条矩形路径，矩形的起点位置是 (x, y) ，尺寸为 width 和 height。
+    */
+    // 获取 canvas 元素
+    var canvas1 = document.getElementById('canvas1');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas1.getContext) {
+      // 获取绘图上下文
+      var ctx1 = canvas1.getContext('2d');
+      var img1 = new Image();
+      img1.src = '../image/dog1.png';
+      img1.onload = function () {
+        // 创建圆形裁剪路径
+        ctx1.arc(250, 250, 160, 0, Math.PI * 2, false);
+        var path1 = new Path2D();
+        path1.rect(100, 100, 300, 300);
+        ctx1.clip(path1);
+        // 创建完后绘制
+        ctx1.drawImage(img1, 0, 0, 500, 500);
+      }
+    }
+  </script>
+</body>
+
+</html>

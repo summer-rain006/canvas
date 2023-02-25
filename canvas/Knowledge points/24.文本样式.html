@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 绘制图案</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+      margin-right: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="700">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <canvas id="canvas1" width="500" height="700">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /**
+     * font
+     * 用于绘制文本的样式。默认的字体是 10px sans-serif。
+     * textAlign
+     * 文本对齐的方式。可选值为：left、right、center、start和end。默认值是 start。
+     * direction
+     * 文本的方向。可选值为：ltr（文本方向从左向右）、rtl（文本方向从右向左）、inherit（根据情况继承 Canvas元素或者 Document 。）。默认值是 inherit。
+     * 需要注意的是 direction 属性会对 textAlign 属性产生影响。如果 direction 属性设置为 ltr，则textAlign属性的 left 和 start 的效果相同，right 和 end 的效果相  同，如果 direction 属性设置为 rtl，则 textAlign属性的 left 和 end 的效果相同，right 和 start 的效果相同。
+     */
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      ctx.moveTo(200, 0);
+      ctx.lineTo(200, 700);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.font = "30px serif"; // 设置文案大小和字体
+      ctx.direction = "ltr"; // 文本方向从左向右
+      ctx.textAlign = "left"; // 左对齐
+      ctx.strokeText("Hi Canvas !", 200, 100);
+      ctx.direction = "ltr"; // 文本方向从左向右
+      ctx.textAlign = "start"; // 左对齐
+      ctx.strokeText("Hi Canvas !", 200, 150);
+      ctx.direction = "ltr"; // 文本方向从左向右
+      ctx.textAlign = "center"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 200);
+      ctx.direction = "ltr"; // 文本方向从左向右
+      ctx.textAlign = "right"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 300);
+      ctx.direction = "ltr"; // 文本方向从左向右
+      ctx.textAlign = "end"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 350);
+
+
+
+      ctx.direction = "rtl"; // 文本方向从左向右
+      ctx.textAlign = "left"; // 左对齐
+      ctx.strokeText("Hi Canvas !", 200, 400);
+      ctx.direction = "rtl"; // 文本方向从左向右
+      ctx.textAlign = "end"; // 左对齐
+      ctx.strokeText("Hi Canvas !", 200, 450);
+      ctx.direction = "rtl"; // 文本方向从左向右
+      ctx.textAlign = "center"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 500);
+      ctx.direction = "rtl"; // 文本方向从左向右
+      ctx.textAlign = "right"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 600);
+      ctx.direction = "rtl"; // 文本方向从左向右
+      ctx.textAlign = "start"; // 右对齐
+      ctx.strokeText("Hi Canvas !", 200, 650);
+    }
+
+
+    /**
+     * textBaseline
+     * 基线对齐选项，决定文字垂直方向的对齐方式。可选值为：top、hanging、middle、alphabetic、ideographic和bottom。默认值是 alphabetic。
+     */
+    // 获取 canvas 元素
+    var canvas1 = document.getElementById('canvas1');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas1.getContext) {
+      // 获取绘图上下文
+      var ctx1 = canvas1.getContext('2d');
+      ctx1.font = "25px serif"; // 设置文案大小和字体
+      ctx1.strokeStyle = 'red';
+      const baselines = ['top', 'hanging', 'middle', 'alphabetic', 'ideographic', 'bottom'];
+      baselines.forEach(function (baseline, index) {
+        ctx1.textBaseline = baseline;
+        let y = 60 + index * 60;
+        ctx1.beginPath();
+        ctx1.moveTo(10, y + 0.5);
+        ctx1.lineTo(500, y + 0.5);
+        ctx1.stroke();
+        ctx1.fillText('Hi Canvas, Welcome to my world! (' + baseline + ')', 10, y);
+      });
+
+      ctx1.font = "30px serif"; // 设置文案大小和字体
+      ctx1.beginPath();
+      ctx1.strokeText("Hi Canvas !", 150, 500);
+      var text = ctx1.measureText("Hi Canvas !");
+      ctx1.strokeText(`Hi Canvas !的文案宽度：${text.width}`, 50, 600);
+    }
+  </script>
+</body>
+
+</html>

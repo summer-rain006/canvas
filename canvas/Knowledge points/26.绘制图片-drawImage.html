@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 绘制 - drawImage</title>
+  <style>
+    /* 给画布增加一个阴影和圆角的样式 */
+    canvas {
+      box-shadow: 0px 0px 5px #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="600" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <canvas id="canvas1" width="600" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <canvas id="canvas2" width="600" height="500">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /*
+    drawImage
+      这里咱们主要要说的就是drawImage方法的使用，他的用法有三种，是根据不同的传参实现不同的功能。先看看都有哪些参数：
+
+      image：绘制到上下文的元素。
+      sx、sy：裁剪框的左上角X轴坐标和Y轴坐标。
+      sWidth、sHeight：裁剪框的宽度和高度。
+      dx、dy：绘制到上下文的元素，在上下文中左上角的X轴坐标和Y轴坐标。
+      dWidth、dHeight：绘制到上下文的元素，在上下文中绘制的宽度和高度。如果不说明，在绘制时image宽度和高度不会缩放。
+    */
+
+    // drawImage(image, dx, dy)：只有单纯的绘制功能，可以绘制图片、视频和别的Canvas对象等。
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.src = '../image/dog.png';
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+      }
+    }
+
+    // drawImage(image, dx, dy,dWidth,dHeight)：在绘制的基础上我们又增加了两个参数，这两个参数能控制绘制元素的大小，整体实现一个缩放的效果。
+    // 获取 canvas 元素
+    var canvas1 = document.getElementById('canvas1');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas1.getContext) {
+      // 获取绘图上下文
+      var ctx1 = canvas1.getContext('2d');
+      var img1 = new Image();
+      img1.src = '../image/dog.png';
+      img1.onload = function () {
+        ctx1.drawImage(img1, 0, 0, 300, 250);
+      }
+    }
+
+    // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)：在缩放的基础上又增加了四个参数，整体也是在缩放的基础上增加了裁剪的功能。
+    // 获取 canvas 元素
+    var canvas2 = document.getElementById('canvas2');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if (canvas2.getContext) {
+      // 获取绘图上下文
+      var ctx2 = canvas2.getContext('2d');
+      var img2 = new Image();
+      img2.src = '../image/dog.png';
+      img2.onload = function () {
+        ctx2.drawImage(img2, 250, 0, 200, 500, 0, 0, 200, 500);
+      }
+    }
+  </script>
+</body>
+
+</html>

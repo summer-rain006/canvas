@@ -16,10 +16,14 @@
 </head>
 
 <body>
-  <canvas id="canvas" width="500" height="500">
+  <canvas id="canvas" width="500" height="500" style="border: 1px solid #000;">
     当前浏览器不支持canvas元素，请升级或更换浏览器！
   </canvas>
   <script>
+    /*
+        Canvas中想绘制图案效果，需要用 createPattern 方法来实现。
+    语法：createPattern(image, type)，参数分别为：Image 参数可以是一个 Image 对象，也可以是一个 canvas 对象，Type 为图案绘制的类型，可用的类型分别有：repeat，repeat-x，repeat-y 和 no-repeat。
+    */
     // 获取 canvas 元素
     var canvas = document.getElementById('canvas');
     // 通过判断getContext方法是否存在来判断浏览器的支持性
@@ -28,11 +32,14 @@
       var ctx = canvas.getContext('2d');
       // 创建一个 image对象
       var img = new Image();
-      img.src = "../image/cat1.webp";
+      img.src = "../image/cat4.jpg";
       img.onload = function () {
         // 图片加载完以后
         // 创建图案
-        var ptrn = ctx.createPattern(img, 'no-repeat');
+        // var ptrn = ctx.createPattern(img, 'no-repeat'); //不平铺
+        // var ptrn = ctx.createPattern(img, 'repeat'); // 平铺
+        // var ptrn = ctx.createPattern(img, 'repeat-x'); // 平铺
+        var ptrn = ctx.createPattern(img, 'repeat-y'); // 平铺
         ctx.fillStyle = ptrn;
         ctx.fillRect(0, 0, 500, 500);
       }

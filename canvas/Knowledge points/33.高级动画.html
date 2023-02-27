@@ -20,15 +20,24 @@
     当前浏览器不支持canvas元素，请升级或更换浏览器！
   </canvas>
   <script>
+    /**
+     * 1.绘制小球
+     * 2.我们通过给小球添加速率矢量进行移动。这个依旧用requestAnimationFrame() 方法来实现，在每一帧里面，依旧用clear 清理掉之前帧里旧的圆形。
+     * 3.想让小球反弹那么我们就需要添加边界
+     * 4.为了让动作更真实，我们还需要加入加速度的处理。
+     * 5.加一个拖尾效果：
+     */
     // 获取 canvas 元素
     var canvas = document.getElementById('canvas');
     // 通过判断getContext方法是否存在来判断浏览器的支持性
     if (canvas.getContext) {
-      // 获取绘图上下文
+      // 1.绘制小球
       var ctx = canvas.getContext('2d');
       var ball = {
         x: 100,
         y: 100,
+        vx: 1,
+        vy: 3,
         radius: 25,
         color: 'blue',
         draw: function () {
@@ -39,6 +48,41 @@
           ctx.fill();
         }
       };
+      // 2速率
+      function draw() {
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 3.用带透明度的矩形代替清空
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ball.draw();
+        // 3.添加加速度
+        ball.vy *= .99;
+        ball.vy += .25;
+        // console.log(ball.vy);
+        // 添加速率
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        // console.log(ball.vy, ball.y + ball.radius);
+        // 3添加边界
+        if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+          ball.vy = -ball.vy
+          if (ball.y + ball.radius > canvas.height) {
+            ball.y = canvas.height - ball.radius
+          } else {
+            ball.y = 0 + ball.radius
+          }
+        }
+        if (ball.x + ball.radius > canvas.height || ball.x - ball.radius < 0) {
+          ball.vx = -ball.vx
+          if (ball.x + ball.radius > canvas.width) {
+            ball.x = canvas.width - ball.radius
+          } else {
+            ball.x = 0 + ball.radius
+          }
+        }
+        window.requestAnimationFrame(draw);
+      }
+      window.requestAnimationFrame(draw);
       ball.draw();
     }
   </script>

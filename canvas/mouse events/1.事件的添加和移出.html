@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 鼠标事件</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="550" height="500"
+    style="box-shadow: 0px 0px 5px #ccc; border-radius: 8px; margin: 0; padding: 0;">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+
+  <script>
+    // 获取Canvas
+    const canvas = document.getElementById('canvas');
+    // 获取绘制上下文
+    const ctx = canvas.getContext('2d');
+    // 给canvas添加鼠标移动事件
+    canvas.addEventListener("mousemove", mouseMoving, false);
+    function mouseMoving(e) {
+      console.log(`当前鼠标在Canvas中的位置: x: ${e.clientX}  y: ${e.clientY}`);
+    }
+  </script>
+</body>
+
+</html>

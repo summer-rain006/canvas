@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas - 事件</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="1000" height="500" tabindex="0" style="box-shadow: 0px 0px 5px #ccc; border-radius: 8px;">
+    当前浏览器不支持canvas元素，请升级或更换浏览器！
+  </canvas>
+  <script>
+    /**
+     *
+     *
+     * 3.判断选中元素
+     * 方法一、一种是通过计算，如上面布局的代码，每个图片绘制的x、y、width和height我们都是知道的，那么当我们每次点击下去的时候就可以遍历图片的数据，看我们是否点击到元素上。
+     * 方法二、这里利用的是：isPointInPath()方法，此方法可以把坐标传入，然后判断是否在路径之内。
+     * 语法：isPointInPath(x, y) x为监测点的x坐标，y为监测点的y坐标。
+     * 这里需要注意的是，在我们的案例中，我们是通过drawImage()方法把图片绘制到canvas元素上，而drawImage()方法不支持isPointInPath()方法的路径检测，这里我们就需使用绘制路径的方法，因此在绘制图片的时候，我们就需要同时绘制一个一样大小的路径。
+     */
+    // 获取Canvas
+    const canvas = document.getElementById('canvas');
+    const width = canvas.width;
+    const height = canvas.height;
+    // 获取绘制上下文
+    const ctx = canvas.getContext('2d');
+    const images = [
+      {
+        name: "白月魁",
+        url: "../image/bailaoban.jpeg"
+      },
+      {
+        name: "鸣人",
+        url: "../image/mingren.jpeg",
+      },
+      {
+        name: "路飞",
+        url: "../image/lufei.jpeg",
+      },
+      {
+        name: "哪吒",
+        url: "../image/necha.jpg",
+      },
+      {
+        name: "千寻",
+        url: "../image/qianxun.jpg",
+      },
+    ];
+    let imagesData = [];
+    let clickCoordinate = { x: 0, y: 0 };
+    let target;
+    images.forEach((item) => {
+      // 创建image元素
+      const image = new Image()
+      image.src = item.url
+      const name = item.name
+      image.onload = () => {
+        const w = 200;
+        const h = 200 / image.width * image.height
+        const x = Math.random() * (width - w)
+        const y = Math.random() * (height - h)
+        const imageObj = { image, name, x, y, w, h }
+        imagesData.push(imageObj)
+        draw(imageObj)
+      }
+    })
+
+    function draw(imageObj) {
+      ctx.drawImage(imageObj.image, imageObj.x, imageObj.y, imageObj.w, imageObj.h);
+      // 方法二、
+      // ctx.beginPath();
+      // ctx.strokeStyle = "#fff";
+      // ctx.rect(imageObj.x, imageObj.y, imageObj.w, imageObj.h);
+      // ctx.stroke();
+    }
+
+    // 2.添加鼠标事件
+    // 为canvas添加鼠标按下事件
+    canvas.addEventListener("mousedown", mousedownFn, false)
+
+    // 鼠标按下触发的方法
+    function mousedownFn(e) {
+      // 获取元素按下时的坐标
+      clickCoordinate.x = e.pageX - canvas.offsetLeft;
+      clickCoordinate.y = e.pageY - canvas.offsetTop;
+      // 判断选中的元素是哪一个
+      checkElement()
+      // 为canvas添加鼠标移动和鼠标抬起事件
+      canvas.addEventListener("mousemove", mousemoveFn, false)
+      canvas.addEventListener("mouseup", mouseupFn, false)
+    }
+
+    // 鼠标移动触发
+    function mousemoveFn(e) {
+      if (target === undefined) return
+      const moveX = e.pageX
+      const moveY = e.pageY
+      // 计算移动元素的坐标
+      imagesData[target].x = imagesData[target].x + (moveX - clickCoordinate.x)
+      imagesData[target].y = imagesData[target].y + (moveY - clickCoordinate.y)
+      // 清空画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // 清空后重新绘制
+      imagesData.forEach((i) => draw(i))
+      // 重新赋值
+      clickCoordinate.x = moveX;
+      clickCoordinate.y = moveY;
+    }
+
+    // 鼠标抬起触发
+    function mouseupFn() {
+      // 鼠标抬起以后移除事件
+      canvas.removeEventListener("mousemove", mousemoveFn, false)
+      canvas.removeEventListener("mouseup", mouseupFn, false)
+      // 销毁选中元素
+      target = undefined
+
+    }
+
+    function checkElement() {
+      imagesData.forEach((item, index) => {
+        const minX = item.x;
+        const maxX = item.x + item.w;
+        const minY = item.y;
+        const maxY = item.y + item.h;
+        if (minX <= clickCoordinate.x && clickCoordinate.x <= maxX && minY <= clickCoordinate.y && clickCoordinate.y <= maxY) {
+          target = index
+          console.log(target);
+          console.log("点击的元素是：", item.name)
+        }
+      })
+      // 方法二、
+      // imagesData.forEach((item, index) => {
+      //   draw(item)
+      //   if (ctx.isPointInPath(clickCoordinate.x, clickCoordinate.y)) {
+      //     target = index
+      //     console.log("点击的元素是：", item.name)
+      //   }
+      // })
+    }
+
+  </script>
+</body>
+
+</html>
